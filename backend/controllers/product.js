@@ -17,7 +17,7 @@ const getAllProducts = asyncWrapper(async (req, res) => {
 
 const getProduct = asyncWrapper(async(req, res, next)=> {
     const {id: productId} = req.params
-   
+    
     const product = await Product.findById({_id: productId})
     
     if (!product){
