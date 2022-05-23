@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react'
-import { Link, useParams } from 'react-router-dom'
-import { Button, Row, Col, ListGroup, Image, Card } from 'react-bootstrap'
+import React, { useState, useEffect } from 'react'
+import { Link, useParams, useNavigate } from 'react-router-dom'
+import { Button, Row, Col, ListGroup, Image, Card, Form } from 'react-bootstrap'
 
 import Rating from '../components/Rating'
 import Loader from '../components/Loader'
@@ -12,7 +12,8 @@ import { listProductDetails } from '../actions/productActions'
 
 
 const ProductScreen = () => {
-    
+    const [qty, setQty] = useState(0)
+    const navigate = useNavigate()
     let { id } = useParams()
     const dispatch = useDispatch()
     const { product, loading ,error} = useSelector(state => state.productDetails)
@@ -21,7 +22,9 @@ const ProductScreen = () => {
        dispatch(listProductDetails(id))
     }, [id, dispatch])
 
-  
+    const addToCartHandler = () => {
+        navigate(`/cart/${id}?qtys=${qty}`)
+    }  
     return (
     <>
         <Link to="/">
@@ -70,9 +73,41 @@ const ProductScreen = () => {
                                  <Col>{product.countInStock>0 ? 'In Stock': 'Out of Stock'}</Col>
                              </Row>
                          </ListGroup.Item>
+                            {
+                            product.countInStock > 0 && 
+                             <ListGroup.Item>
+                             <Row>
+                                 <Col>
+                                    Quantity
+                                 </Col>
+                                 <Col>
+                                    <Form.Control as='select'
+                                        value={qty} onChange={(e)=>
+                                        setQty(e.target.value)}>
+                                        {
+                                            [...Array(product.countInStock).keys()].map(x=>(
+                                                <option key={x+1} value={x+1}>{x+1}</option>
+                                            ))
+                                        }
+                                    </Form.Control>
+                                   </Col>
+                                           
+                                 </Row>
+                                    
+                         
+                         </ListGroup.Item>
+
+                            }
+
                          <ListGroup.Item >  
                          <div class="d-grid gap-2">
-                                <button class="btn btn-primary" type="button" disabled={product.countInStock===0}>Add to Cart</button>
+                                <button class="btn btn-primary"
+                                        onClick={addToCartHandler}
+                                        type="button" 
+                                        disabled={product.countInStock===0}
+                                >
+                                    Add to Cart
+                                </button>
   
                             </div>
                          </ListGroup.Item>
