@@ -1,0 +1,28 @@
+import { CART_ADD_ITEM , CART_REMOVE_ITEM} from "../constants/cartConstants"
+
+const initialState = {
+    cartItems: localStorage.getItem('cartItem') || []
+}
+export const cartReducer = (state = initialState, action)=> {
+    switch(action.type){
+        case CART_ADD_ITEM:
+            const item = action.payload
+            const existItem = state.cartItems.find((x => x._id === item._id ))
+
+            if (existItem){
+                return {
+                    ...state,
+                    cartItems: state.cartItems.map( x => 
+                        x._id===item._id ? {...x, qty: x.qty + item.qty} : x
+                        )
+                }
+            } else {
+                return {
+                    ...state,
+                    cartItems: [...state.cartItems, item]
+                }
+            }
+        default:
+            return state
+    }
+}
