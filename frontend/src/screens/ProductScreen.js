@@ -5,10 +5,11 @@ import { Button, Row, Col, ListGroup, Image, Card, Form } from 'react-bootstrap'
 import Rating from '../components/Rating'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
-import axios from 'axios'
+
 import { useDispatch, useSelector } from 'react-redux'
 //actions
 import { listProductDetails } from '../actions/productActions'
+import { addToCart } from  '../actions/cartActions'
 
 
 const ProductScreen = () => {
@@ -23,7 +24,8 @@ const ProductScreen = () => {
     }, [id, dispatch])
 
     const addToCartHandler = () => {
-        navigate(`/cart/${id}?qtys=${qty}`)
+        dispatch(addToCart(product, Number(qty)))
+        navigate('/cart')
     }  
     return (
     <>
