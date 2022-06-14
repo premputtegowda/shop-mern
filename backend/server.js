@@ -2,6 +2,7 @@ import express from 'express'
 import dotenv from 'dotenv'
 import connectDB from './config/db.js'
 import productRoutes from './routes/productRoutes.js'
+import userRoutes from './routes/userRoutes.js'
 import {notfound, errorHandlerMiddleware} from './middlewares/errorHandlerMiddleware.js'
 
 dotenv.config()
@@ -11,11 +12,17 @@ dotenv.config()
 const app = express()
 app.use(express.json())
 
-app.get('/',(req,res)=> {
-    res.send('Api is running')
-})
+// app.get('/',(req,res)=> {
+//     res.send('Api is running')
+// })
+
+// app.post('/api/users/login',(req,res)=> {
+//     res.status(201).json(req.body)
+// })
 
 app.use('/api/products',productRoutes)
+app.use('/api/users',userRoutes)
+
 
 
 

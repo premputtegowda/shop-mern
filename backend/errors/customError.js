@@ -9,7 +9,7 @@ class CustomAPIError extends Error {
 }
 
 const createCustomError = (msg, statusCode) => {
-  
+    console.log('error Status', statusCode)
  
     return new CustomAPIError(msg, statusCode)
 }
