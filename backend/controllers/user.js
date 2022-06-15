@@ -4,7 +4,44 @@ import {createCustomError } from '../errors/customError.js';
 import { generateToken } from '../utils/generateToken.js';
 
 
+const registerUser = asyncWrapper(async(req, res, next)=> {
+    const {name, email, password} = req.body
+    const userExists = await User.find({email})
+ 
+    
+    if(userExists){
+        console.log("userExists", !userExists)
+        return next(createCustomError('User exists', 400))
+    }
 
+   
+            
+    const user = await User.create({
+        name, 
+        email,
+        password
+    })
+            
+         
+            
+            if(!user){
+                return next(createCustomError('Invalid data', 400))
+            } else {
+                res.status(201).json({
+                    _id: user._id,
+                    name: user.name,
+                    email: user.email,
+                    isAdmin: user.isAdmin,
+                    token: generateToken(user._id)
+                })
+            }
+            
+        
+    
+
+   
+
+})
 
 const authUser = asyncWrapper(async (req, res, next) => {
     const {email, password} = req.body
@@ -13,7 +50,7 @@ const authUser = asyncWrapper(async (req, res, next) => {
    
 
     if (user && await user.matchPassword(password)){
-        console.log('hello')
+     
         res.json({
             _id: user._id,
             name: user.name,
@@ -50,4 +87,4 @@ const getUserProfile = asyncWrapper( async(req, res, next)=> {
 
 })
 
-export { authUser, getUserProfile }
+export { authUser, getUserProfile, registerUser }
