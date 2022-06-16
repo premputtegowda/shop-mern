@@ -6,7 +6,7 @@ import {
 } from '../constants/userConstants'
 
 
-export const login = (email, password) => async(dispatch) => {
+export const login = (email, password) => async(dispatch, getState) => {
     try{
         dispatch({type: USER_LOGIN_REQUEST})
 
@@ -19,12 +19,21 @@ export const login = (email, password) => async(dispatch) => {
         const {data} = await axios.post('/api/users/login',{email, password},
          config)
 
+      
+
          dispatch({
              type: USER_LOGIN_SUCCESS,
-             payload: data,
+             payload: {
+                 id: data._id,
+                 name: data.name,
+                 email: data.email,
+                 isAdmin:data.isAdmin,
+                 token: data.token
+             },
          })
 
-         localStorage.set('userInfo', JSON.stringify(data))
+         localStorage.setItem('userInfo', JSON.stringify(getState().userLogin.userInfo))
+         
     } catch(error){
         dispatch({type:USER_LOGIN_FAIL,
             payload: error && error.response.data.msg ?

@@ -8,7 +8,7 @@ const reducer = combineReducers({
     productList: productListReducer,
     productDetails: productDetailsReducer,
     cart: cartReducer,
-    userInfo: userLoginReducer
+    userLogin: userLoginReducer
 })
 const middleware = [thunk]
 

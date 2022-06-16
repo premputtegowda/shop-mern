@@ -1,5 +1,5 @@
-import { STATES } from "mongoose"
-import { BsReverseLayoutTextWindowReverse } from "react-icons/bs"
+
+
 import { 
         PRODUCT_LIST_SUCCESS,
          PRODUCT_LIST_REQUEST,
@@ -8,12 +8,13 @@ import {
          PRODUCT_DETAILS_SUCCESS,
          PRODUCT_DETAILS_FAIL
  } from "../constants/productConstant"      
- const initialState ={
-   
-}
-export const productListReducer = (state={ products: [],
+
+ const initialState = {
+    products: [],
     loading: false,
-    error: false, }, action) => {
+    error: false,
+}
+export const productListReducer = (state= initialState, action) => {
 switch (action.type){
     case PRODUCT_LIST_REQUEST:
         return {...state, loading: true, error: null, products: []}
