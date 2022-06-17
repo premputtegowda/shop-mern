@@ -1,4 +1,4 @@
-import { USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS } from "../constants/userConstants";
+import { USER_LOGIN_FAIL, USER_LOGIN_REQUEST, USER_LOGIN_SUCCESS, USER_LOGOUT} from "../constants/userConstants";
 const initialState = {
     userInfo: null,
     loading: false,
@@ -21,6 +21,11 @@ export const userLoginReducer = (state= initialState, action) => {
             return{...state,
                          loading: false,
                           error: action.payload}
+        case USER_LOGOUT:
+            return{...state,
+                userInfo: null,
+                loading: false,
+                error: null}
         default:
             return state
     }
