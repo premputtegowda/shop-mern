@@ -89,4 +89,32 @@ const getUserProfile = asyncWrapper( async(req, res, next)=> {
 
 })
 
-export { authUser, getUserProfile, registerUser }
+const updateUserProfile = asyncWrapper( async(req, res, next)=> {
+
+    const user = await User.findById({_id: req.user})
+    console.log('userupdate', req.user)
+    if(user){
+     
+      user.name = req.body.name || user.name
+      user.email = req.body.email || user.email
+      user.password = req.body.password || user.password
+
+      const updatedUser = await user.save()
+  
+
+    res.json({
+        _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      isAdmin: updatedUser.isAdmin,
+      token: generateToken(updatedUser._id),
+
+    })
+} else {
+    return next(createCustomError('User not found', 404))
+}
+
+
+})
+
+export { authUser, getUserProfile, registerUser, updateUserProfile }
