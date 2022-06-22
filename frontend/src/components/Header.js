@@ -9,13 +9,15 @@ import { Link, useNavigate } from 'react-router-dom'
 const Header = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const userLogin = useSelector(state => state.userLogin)
-  const {userInfo} = userLogin
+  const userInfo = useSelector(state => state.userLogin.userInfo)
+  
 
   const logoutHandler = () => {
     dispatch(logout())
     navigate('/login')
   }
+
+  console.log('header', userInfo)
 
   return (
     <header>

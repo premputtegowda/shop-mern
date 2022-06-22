@@ -11,6 +11,7 @@ import FormContainer from '../components/FormContainer'
 const LoginScreen = () => {
     const [email, setEmail ] = useState('')
     const [password, setPassword] = useState('')
+    
     const location = useLocation()
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -26,7 +27,7 @@ const LoginScreen = () => {
         
     }
     useEffect(()=>{
-        console.log('hello', userInfo)
+        
         if(!userInfo){
                
             navigate("/login")

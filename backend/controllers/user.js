@@ -6,11 +6,13 @@ import { generateToken } from '../utils/generateToken.js';
 
 const registerUser = asyncWrapper(async(req, res, next)=> {
     const {name, email, password} = req.body
-    const userExists = await User.find({email})
+    const userExists = await User.findOne({email})
+
+    console.log('userExists', userExists)
  
     
     if(userExists){
-        console.log("userExists", !userExists)
+      
         return next(createCustomError('User exists', 400))
     }
 
@@ -23,7 +25,7 @@ const registerUser = asyncWrapper(async(req, res, next)=> {
     })
             
          
-            
+            console.log(user)
             if(!user){
                 return next(createCustomError('Invalid data', 400))
             } else {
